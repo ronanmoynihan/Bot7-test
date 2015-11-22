@@ -13,10 +13,11 @@ local regression_objective = function(X, test_hypers)
 	if (X:dim() == 1 or X:size(1) == X:nElement()) then
     	X = X:reshape(1, X:nElement())
   	end
-  	assert(X:size(2) == 3)
+  	assert(X:size(2) == 5)
 
-	-- The Boston.csv file has been converted to torch.
-	local data_file = 'regression_objective/data/Boston.th'
+	-- The Boston housing data has been converted to torch.
+	-- http://lib.stat.cmu.edu/datasets/boston
+	local data_file = 'data/boston.t7'
 
 	torch.manualSeed(4)
 
@@ -29,15 +30,13 @@ local regression_objective = function(X, test_hypers)
 	local optimState       -- stores a lua table with the optimization algorithm's settings, and state during iterations
 	local optimMethod      -- stores a function corresponding to the optimization routine
 
-
 	if opt.optimization == 'sgd' then
 	  optimState = {
 	  	learningRate = X[1][1],
 	  	momentum = X[1][2],
-	  	learningRateDecay = X[1][3]
-	    -- learningRate = 1e-1,
-	    -- momentum = 0.4,
-	    -- learningRateDecay = 1e-4
+	  	learningRateDecay = X[1][3],
+	  	weightDecay = X[1][4],
+	  	dropout = X[1][5]
 	  }
 	  opt.batch_size = 500
 	  opt.epochs = 20000

@@ -18,7 +18,7 @@ cmd:option('-score',      'ei', 'specify acquisition function to be used by bot;
 
 cmd:text()
 opt = cmd:parse(arg or {})
-opt.xDim = 3
+opt.xDim = 5
 opt.yDim = 1
 
 ---------------- Experiment Configuration

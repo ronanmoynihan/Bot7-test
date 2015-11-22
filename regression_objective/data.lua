@@ -14,6 +14,11 @@ function data_loader.load_data(th_file, train_perc)
 	-- Index number to split data into train & test.
 	train_test_split_index = (raw_data:size(1) / 100) * train_perc
 
+	train_size = train_test_split_index
+	test_validation_start_index = train_test_split_index
+	test_validation_size = (raw_data:size(1) - train_size) / 2
+
+
     -- The following are the column names of the data.
 	-- Variables in order:
 	-- #        row number 
@@ -36,8 +41,9 @@ function data_loader.load_data(th_file, train_perc)
 	t_coulmn = raw_data:size(2)
 
 	-- cloning targets because the data will be standardised after.
-	data.train_targets = raw_data[{ {1,train_test_split_index},{t_coulmn} }]:clone()
-	data.test_targets =  raw_data[{ {train_test_split_index + 1,raw_data:size(1)},{t_coulmn} }]:clone()
+	data.train_targets = raw_data[{ {1,test_validation_start_index},{t_coulmn} }]:clone()
+	data.test_targets =  raw_data[{ {test_validation_start_index + 1,test_validation_start_index + 1 + test_validation_size},{t_coulmn} }]:clone()
+	data.validation_targets = raw_data[{ {test_validation_start_index + 1 + test_validation_size + 1,raw_data:size(1)},{t_coulmn} }]:clone()
 	
 	-- Standardize Data.
 	local std = std_ or raw_data:std()
@@ -48,8 +54,9 @@ function data_loader.load_data(th_file, train_perc)
 	local dimensions = raw_data:size(2)-1
 
     -- input data -> we ignore the first column as it's just the row number.
-	data.train_data = raw_data[{ {1,train_test_split_index},{2,dimensions} }]
-	data.test_data = raw_data[{ {train_test_split_index + 1,raw_data:size(1)},{2,dimensions} }]
+	data.train_data = raw_data[{ {1,test_validation_start_index},{2,dimensions} }]
+	data.test_data = raw_data[{ {test_validation_start_index + 1,test_validation_start_index + 1 + test_validation_size},{2,dimensions} }]
+	data.validation_data = raw_data[{ {test_validation_start_index + 1 + test_validation_size + 1,raw_data:size(1)},{2,dimensions} }]
 
 	return data
 end
