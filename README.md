@@ -2,6 +2,12 @@
 
 Testing the [Bot7](https://github.com/j-wilson/bot7) HyperParams Bayesian Optimization module.  
 
+### Dependencies
+
+- Updated version of Torch7   
+- [gpTorch7](https://github.com/j-wilson/gpTorch7)  
+- [bot7](https://github.com/j-wilson/bot7)
+
 ### Regression Objective Function
 
 Currently one test which is a regression problem using the [Boston Housing toy dataset](http://lib.stat.cmu.edu/datasets/boston).  
